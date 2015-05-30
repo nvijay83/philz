@@ -12,7 +12,10 @@ links = [
   #'''http://www.philzcoffee.com/Online-Store/Decaf','''
   #'''http://www.philzcoffee.com/Online-Store/Varietals','''
 
+uniq_count = 0
+
 def get_json(url):
+  global uniq_count
   res = requests.get(url)
   tree = html.fromstring(res.text)
   ret = []
@@ -23,7 +26,9 @@ def get_json(url):
     if len(i.strip()) > 10:
       descrip.append(i.strip())
   for i,j in zip(name,descrip):
-    ret.append({"name":i,"description":j})
+    ret.append({"id":uniq_count,"name":i,"description":j})
+    db = TinyDB('db/'+str(uniq_count)+'.json')
+    uniq_count = uniq_count +1
   return ret
 
 def get_all():
@@ -35,7 +40,8 @@ def get_all():
     temp = get_json(i)
     print flav
     print temp
-    db.insert({flav:temp})
+    for i in temp:
+      db.insert(i)
 
 get_all()
 

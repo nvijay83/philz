@@ -1,7 +1,16 @@
-<html>
-<head><title>Create Enduro</title>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- jQuery JS -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Rate Coffees</title>
+
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 
     <!-- Bootbox JS -->
@@ -9,49 +18,152 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap/css/shop-item.css') }}" rel="stylesheet">
 
     <!-- Bootstrap core JS -->
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
+
 <body>
-<div class="container">
-    <form method="post" action="create">
-        <!--<table>
-            <tr>
-                <td>Init Fuel</td>
-                <td><input type="text" name="init_fuel"/></td>
-            </tr>
-            <tr>
-                <td>Max Fuel</td>
-                <td><input type="text" name="max_fuel"/></td>
-            </tr>
-            <tr>
-                <td>Races to Monitor</td>
-                <td><input type="text" name="races"/></td>
-            </tr>
-        </table>-->
-        <div class="form-group">
-            <label for="Init Fuel">Init Fuel</label>
-            <input type="text" class="form-control" name="init_fuel" placeholder="Initial fuel"/>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Philz Coffee</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
-        <div class="form-group">
-            <label for="Max fuel">Max Fuel</label>
-            <input type="text" class="form-control" name="max_fuel" placeholder="Max Fuel"/>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <p class="lead">Coffees</p>
+                <div class="list-group">
+                    {% for i in nav_links %}
+                    <a href="{{i[0]}}" class="list-group-item {{i[1]}}">{{i[2]}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-9">
+
+                <div class="thumbnail">
+                    <!--<img class="img-responsive" src="http://placehold.it/800x300" alt="">-->
+                    <div class="caption-full">
+                        <!--<h4 class="pull-right">$24.99</h4>-->
+                        <h4><a href=" {{name_link}} ">{{name}}</a>
+                        </h4>
+                        <p>{{description}}</p>
+                    </div>
+                    <div class="ratings">
+                        <p class="pull-right">{{total_reviews}} reviews</p>
+                        <p>
+                            {% for i in ratings %}
+                            {% if i==1 %}
+                            <span class="glyphicon glyphicon-star"></span>
+                            {% else %}
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            {% endif %}
+                            {% endfor %}
+                            {{ratings_float}} stars
+                        </p>
+                    </div>
+                </div>
+
+                <div class="well">
+
+                    <div class="text-right">
+                        <a class="btn btn-success">Leave a Review</a>
+                    </div>
+                    {% for i in reviews %}
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% for j in i['ratings'] %}
+                             {% if i==1 %}
+                                <span class="glyphicon glyphicon-star"></span>
+                             {% else %}
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                            {% endif %}
+                            {% endfor %}
+
+                            {{i['customer_id']}}
+                            <span class="pull-right">{{i['date']}}</span>
+                            <p>{{i['comment']}}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+                    {%endfor%}
+
+
+                </div>
+
+            </div>
+
         </div>
-        <div class="form-group">
-            <label for="Races to Monitor">Races to Monitor</label>
-            <input type="text" class="form-control" name="races" placeholder="Number of races to monitor"/>
-        </div>
-        <div class="form-group">
-            <label for="Track list">Select Track</label>
-            <select class="form-control" id="sel1" name="track">
-                {% for o in tracks %}
-                    <option value="{{o['id']}}">{{o['name']}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Create</button>
-    </form>
-</div>
+
+    </div>
+    <!-- /.container -->
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Philz Coffee 2015</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
 </body>
+
 </html>

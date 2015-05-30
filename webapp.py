@@ -1,16 +1,15 @@
-from operator import itemgetter
-import re
+from tinydb import TinyDB
 from flask import Flask, request, render_template, redirect, url_for, abort,flash, jsonify,send_from_directory
+from  TinyDbCore import *
+
 # noinspection PyUnresolvedReferences
 #from flask.ext.login import LoginManager, login_user
 # noinspection PyUnresolvedReferences
 #from flask.ext.security import login_required
-from db import *
-from operator import itemgetter
 
-app = Flask(__name__, static_folder='webapp/static', template_folder='webapp/templates')
+app = Flask(__name__, static_folder='static', template_folder='templates')
 #app.config.from_envvar('WEBAPP_SETTINGS')
-
+'''
 @app.route('/live',methods=['GET','POST'])
 def live():
   racers, finished = Racer.get_live_scoreboard()
@@ -88,11 +87,64 @@ def update():
 def cr():
   tracks = ClubSpeedApi.get_tracks_api()
   return render_template("index.html",tracks=tracks)
+'''
+
+def get_coffees(active):
+  name = ''
+  name_link = ''
+  nav_links = []
+  description = ''
+  db = TinyDB('db/coffee.json')
+  coffee = db.all()
+  count = 0
+  for i in coffee:
+    if active == -1 and count == 0:
+      nav_links.append(("/"+str(i['id']),"active",i['name']))
+      name = i['name']
+      description = i['description']
+    elif active == -1 and count > 0:
+      nav_links.append(("/"+str(i['id']),"",i['name']))
+    elif active == i['id']:
+      nav_links.append(("/"+str(i['id']),"active",i['name']))
+      name = i['name']
+      description = i['description']
+    else:
+      nav_links.append(("/"+str(i['id']),"",i['name']))
+    name_link = '/'+str(i['id'])
+    count = count+1
+  for i in nav_links:
+    print i
+  print name
+  print name_link
+
+  return nav_links, name, name_link, description
+
+get_coffees(1)
+@app.route('/<id>')
+def spec_coffee(id):
+  print id
+  nav_links, name, name_link, description = get_coffees(int(id))
+  db = 'db/'+id+'.json'
+  reviews = getReviews(db)
+  ratings = getStarRatings(db)
+  ratings_float = getRatings(db)
+  total_reviews = len(reviews)
+
+  return render_template('index.html', nav_links=nav_links, name=name, name_link=name_link, description=description,
+                         reviews=reviews, ratings=ratings, ratings_float=ratings_float,total_reviews=total_reviews)
 
 @app.route('/')
 def index():
-  return render_template("admin.html")
+  nav_links, name, name_link,description = get_coffees(0)
+  db = 'db/0.json'
+  reviews = getReviews(db)
+  ratings = getStarRatings(db)
+  ratings_float = getRatings(db)
+  total_reviews = len(reviews)
+  return render_template('index.html', nav_links=nav_links, name=name, name_link=name_link, description = description,
+                         reviews=reviews, ratings=ratings, ratings_float=ratings_float,total_reviews=total_reviews)
 
+'''
 @app.route('/maxfuel', methods=['GET','POST'])
 def max_fuel():
   print "here"
@@ -109,6 +161,7 @@ def max_fuel():
   else:
     return str(0)
 
+'''
 '''
 import sys
 sys.path.append("unit/")
