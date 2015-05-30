@@ -65,7 +65,8 @@ def getReviews( dbName ):
    db = getDb( dbName )
    reviews = {}
    for entry in db.all():
-      reviews[ entry[ 'customer_id' ] ] = ( entry[ 'comment' ], entry[ 'date' ] )
+      if entry[ 'comment' ]:
+         reviews[ entry[ 'customer_id' ] ] = ( entry[ 'comment' ], entry[ 'date' ] )
    return reviews
 
 def cleanup( dbName ):
