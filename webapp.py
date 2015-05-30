@@ -138,6 +138,7 @@ def index():
   nav_links, name, name_link,description = get_coffees(0)
   db = 'db/0.json'
   reviews = getReviews(db)
+  print reviews
   ratings = getStarRatings(db)
   ratings_float = getRatings(db)
   total_reviews = len(reviews)

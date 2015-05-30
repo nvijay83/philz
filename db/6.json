@@ -1,1 +1,1 @@
-{"_default": {"1": {"comment": "Hello", "rating": 5, "customer_id": 1, "date": "04:18PM on May 30, 2015", "stars": [1, 1, 1, 1, 1]}, "2": {"comment": "Hello", "rating": 3, "customer_id": 2, "date": "04:18PM on May 30, 2015", "stars": [1, 1, 1, 0, 0]}}}
+{"_default": [{"comment": "Hello", "rating": 5, "customer_id": 1, "stars": [1, 1, 1, 1, 1], "date": "04:35PM on May 30, 2015", "_id": 0}, {"comment": "Hello", "rating": 3, "_id": 0, "stars": [1, 1, 1, 0, 0], "date": "04:35PM on May 30, 2015", "customer_id": 2}]}

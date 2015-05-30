@@ -63,12 +63,13 @@ def getStarRatings( dbName ):
 
 def getReviews( dbName ):
    db = getDb( dbName )
-   reviews = {}
+   reviews = []
    for entry in db.all():
       if entry[ 'comment' ]:
-         reviews[ entry[ 'customer_id' ] ] = ( entry[ 'comment' ],
-                                               entry[ 'stars' ],
-                                               entry[ 'date' ] )
+         reviews.append({'customer_id':entry[ 'customer_id' ],
+                        'comment':entry[ 'comment' ],
+                        'stars':entry[ 'stars' ],
+                        'date':entry[ 'date' ]})
    return reviews
 
 def cleanup( dbName ):
