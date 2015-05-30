@@ -16,6 +16,6 @@ if __name__ == '__main__':
    assert TinyDbCore.getStarRatings( 'Arabica' ) == [ 1, 1, 1, 1, 0 ]
    reviews = TinyDbCore.getReviews( 'Arabica' )
    assert set( [ 1, 2 ] ) == set( reviews.keys() )
-
+   pdb.set_trace()
    TinyDbCore.cleanup( 'Arabica' )
 

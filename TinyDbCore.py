@@ -66,7 +66,9 @@ def getReviews( dbName ):
    reviews = {}
    for entry in db.all():
       if entry[ 'comment' ]:
-         reviews[ entry[ 'customer_id' ] ] = ( entry[ 'comment' ], entry[ 'date' ] )
+         reviews[ entry[ 'customer_id' ] ] = ( entry[ 'comment' ],
+                                               entry[ 'stars' ],
+                                               entry[ 'date' ] )
    return reviews
 
 def cleanup( dbName ):
@@ -75,3 +77,8 @@ def cleanup( dbName ):
 
 def getDb( dbName ):
    return TinyDB( dbName )
+
+# Test code Apis to populate some random entries
+# def populateRandomData( dbName ):
+
+
