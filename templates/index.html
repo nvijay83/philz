@@ -15,11 +15,12 @@
 
     <!-- Bootbox JS -->
     <script src="{{ url_for('static', filename='bootbox/bootbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/star-rating.min.js') }}"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='bootstrap/css/shop-item.css') }}" rel="stylesheet">
-
+    <link href="{{ url_for('static', filename='bootstrap/css/star-rating.min.css') }}" rel="stylesheet">
     <!-- Bootstrap core JS -->
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
 
@@ -109,6 +110,7 @@
 
                     <div class="text-right">
                         <a class="btn btn-success">Leave a Review</a>
+                        <input id="input-id" type="number" class="rating" min=1 max=5 step=1 data-size="xs" data-rtl="false" showClear="false" showCaption=false>
                     </div>
                     {% for i in reviews %}
                     <hr>
