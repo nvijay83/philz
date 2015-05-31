@@ -104,6 +104,7 @@ def get_coffees(active):
       name = i['name']
       description = i['description']
       coffee_id = i['id']
+      name_link = '/'+str(i['id'])
     elif active == -1 and count > 0:
       nav_links.append(("/"+str(i['id']),"",i['name']))
     elif active == i['id']:
@@ -111,9 +112,9 @@ def get_coffees(active):
       name = i['name']
       description = i['description']
       coffee_id = i['id']
+      name_link = '/'+str(i['id'])
     else:
       nav_links.append(("/"+str(i['id']),"",i['name']))
-    name_link = '/'+str(i['id'])
     count = count+1
   for i in nav_links:
     print i
@@ -146,6 +147,8 @@ def review():
 @app.route('/<id>')
 def spec_coffee(id):
   print id
+  if 'favicon' in id:
+    return
   nav_links, name, name_link, description,coffee_id = get_coffees(int(id))
   db = 'db/'+str(id)+'.json'
   reviews = getReviews(db)
