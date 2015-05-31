@@ -87,11 +87,33 @@ def getDb( dbName ):
 def getRandomComment():
    return 'random-comment-%d' % random.randint( 1, 100 )
 
+
+names = ['Vijay', 'John', 'Jeff', 'Anonymous','Anderson', 'Willy', 'Miller', 'Moore', 'Einstein', 'Young', 'Baker',
+         'king', 'Phillips', 'Turner', 'Mary', 'Patricia', 'Linda', 'Donna', 'Lily', 'Sarah', 'Ashley', 'Sharon', 'Betty',
+         'Deborah', 'Steven', 'Susan', 'barbara', 'Carol', 'Michelle', 'Ram', 'Nathan', 'Maria', 'Edward', 'Kartik', 'Lee',
+         'Yang', 'Andrew', 'William', 'Sandy', 'Sandra', 'Laura', 'Brian', 'Le', 'Chang', 'Thomas', 'Rita', 'Mark']
+
+comments = ['Nice flavor',
+            'I love this coffee',
+            'Amazing after taste',
+            'Too strong',
+            'One of my fav coffees',
+            'Baristas are really nice at Philz',
+            'This is how I start my day!',
+            'This is probably the best coffee! Give it a try']
+
+prob = [1,2,2,3,3,3,4,4,4,4,5,5,5,5,5]
+
 def populateRandomData( dbName ):
-   customer_name = [ 'foo-%d' % i for i in range( 10 ) ]
-   entries = {}
-   for customer_id in customer_name:
-      comment = getRandomComment()
-      rating = random.randint( 0, 5 )
-      insertEntry( dbName, customer_id, rating, comment )
+   global names
+   global comments
+   global prob
+   for j in range(0,random.randint(0,10)):
+     i = random.randint(0,len(names)-1)
+     customer_name = names[i]
+     i = random.randint(0,len(comments)-1)
+     comment = comments[i]
+     i = random.randint(0,len(prob)-1)
+     rating = prob[i]
+     insertEntry(dbName, customer_name, rating, comment)
 
