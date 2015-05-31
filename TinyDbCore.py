@@ -1,6 +1,7 @@
 from tinydb import TinyDB, where
 import pdb
 import datetime
+import random
 
 # Define APIs for callers to insert, query and update
 # Json/python dict
@@ -52,6 +53,9 @@ def insertEntry( dbName, customer_id, rating=None, comment=None ):
 # returns Average rating and return a star rating
 def getRatings( dbName ):
    db = getDb( dbName )
+   if len( db ) == 0:
+      return 0
+
    totalRatings = 0
    for entry in db.all():
       totalRatings += entry[ 'rating' ]
@@ -80,6 +84,14 @@ def getDb( dbName ):
    return TinyDB( dbName )
 
 # Test code Apis to populate some random entries
-# def populateRandomData( dbName ):
+def getRandomComment():
+   return 'random-comment-%d' % random.randint( 1, 100 )
 
+def populateRandomData( dbName ):
+   customer_name = [ 'foo-%d' % i for i in range( 10 ) ]
+   entries = {}
+   for customer_id in customer_name:
+      comment = getRandomComment()
+      rating = random.randint( 0, 5 )
+      insertEntry( dbName, customer_id, rating, comment )
 
