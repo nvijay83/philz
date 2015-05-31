@@ -31,6 +31,14 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script>
+        $(document).ready(function(){
+            $("#review").click(function(){
+                $("#selector").show();
+            });
+        });
+    </script>
+</script>
 
 </head>
 
@@ -109,8 +117,19 @@
                 <div class="well">
 
                     <div class="text-right">
-                        <a class="btn btn-success">Leave a Review</a>
-                        <input id="input-id" type="number" class="rating" min=1 max=5 step=1 data-size="xs" data-rtl="false" showClear="false" showCaption=false>
+                        <a class="btn btn-success" id="review">Leave a Review</a>
+                        <div id="selector" style="display:none">
+                            <div class="form-group">
+                                <form method="post" action="review">
+                                    <input name="coffee" value="{{coffee_id}}" style="display:none"/>
+                                    <label for="stars">stars:</label>
+                                    <input name="rating" id="input-1" class="rating" data-min="0" data-max="5" data-step="1" data-size="xs" data-show-clear="false" data-show-caption="false">
+                                    <label for="comment">Comment:</label>
+                                    <textarea name="comment" class="form-control" rows="5" id="comment"></textarea>
+                                    <button class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     {% for i in reviews %}
                     <hr>

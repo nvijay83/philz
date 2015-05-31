@@ -97,17 +97,20 @@ def get_coffees(active):
   db = TinyDB('db/coffee.json')
   coffee = db.all()
   count = 0
+  coffee_id = 0
   for i in coffee:
     if active == -1 and count == 0:
       nav_links.append(("/"+str(i['id']),"active",i['name']))
       name = i['name']
       description = i['description']
+      coffee_id = i['id']
     elif active == -1 and count > 0:
       nav_links.append(("/"+str(i['id']),"",i['name']))
     elif active == i['id']:
       nav_links.append(("/"+str(i['id']),"active",i['name']))
       name = i['name']
       description = i['description']
+      coffee_id = i['id']
     else:
       nav_links.append(("/"+str(i['id']),"",i['name']))
     name_link = '/'+str(i['id'])
@@ -117,25 +120,40 @@ def get_coffees(active):
   print name
   print name_link
 
-  return nav_links, name, name_link, description
+  return nav_links, name, name_link, description, coffee_id
 
-get_coffees(1)
+
+@app.route('/review', methods=['GET', 'POST'])
+def review():
+  print "in review"
+  print request.form['comment']
+  print int(request.form['coffee'])
+  print int(request.form['rating'])
+  name = 'Anonymous'
+  id = int(request.form['coffee'])
+  rating = int(request.form['rating'])
+  comment = request.form['comment']
+  if rating > 0:
+    insertEntry('db/'+str(id)+'.json',name,rating,comment)
+  return spec_coffee(id)
+
 @app.route('/<id>')
 def spec_coffee(id):
   print id
-  nav_links, name, name_link, description = get_coffees(int(id))
-  db = 'db/'+id+'.json'
+  nav_links, name, name_link, description,coffee_id = get_coffees(int(id))
+  db = 'db/'+str(id)+'.json'
   reviews = getReviews(db)
   ratings = getStarRatings(db)
   ratings_float = getRatings(db)
   total_reviews = len(reviews)
 
   return render_template('index.html', nav_links=nav_links, name=name, name_link=name_link, description=description,
-                         reviews=reviews, ratings=ratings, ratings_float=ratings_float,total_reviews=total_reviews)
+                         reviews=reviews, ratings=ratings, ratings_float=ratings_float,total_reviews=total_reviews,
+                         coffee_id = coffee_id)
 
 @app.route('/')
 def index():
-  nav_links, name, name_link,description = get_coffees(0)
+  nav_links, name, name_link,description,coffee_id = get_coffees(0)
   db = 'db/0.json'
   reviews = getReviews(db)
   print reviews
@@ -143,7 +161,8 @@ def index():
   ratings_float = getRatings(db)
   total_reviews = len(reviews)
   return render_template('index.html', nav_links=nav_links, name=name, name_link=name_link, description = description,
-                         reviews=reviews, ratings=ratings, ratings_float=ratings_float,total_reviews=total_reviews)
+                         reviews=reviews, ratings=ratings, ratings_float=ratings_float,total_reviews=total_reviews,
+                         coffee_id=coffee_id)
 
 '''
 @app.route('/maxfuel', methods=['GET','POST'])
