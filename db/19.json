@@ -1,1 +1,1 @@
-{"_default": {}}
+{"_default": {"1": {"comment": "Amazing after taste", "rating": 4, "customer_id": "Mark", "date": 1433046611.605516, "stars": [1, 1, 1, 1, 0]}, "2": {"comment": "Too strong", "rating": 3, "customer_id": "Young", "date": 1433046611.606147, "stars": [1, 1, 1, 0, 0]}}}

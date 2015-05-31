@@ -122,14 +122,20 @@ def get_coffees(active):
 
   return nav_links, name, name_link, description, coffee_id
 
+import random
+names = ['Vijay', 'John', 'Jeff', 'Anonymous','Anderson', 'Willy', 'Miller', 'Moore', 'Einstein', 'Young', 'Baker',
+         'king', 'Phillips', 'Turner', 'Mary', 'Patricia', 'Linda', 'Donna', 'Lily', 'Sarah', 'Ashley', 'Sharon', 'Betty',
+         'Deborah', 'Steven', 'Susan', 'barbara', 'Carol', 'Michelle', 'Ram', 'Nathan', 'Maria', 'Edward', 'Kartik', 'Lee',
+         'Yang', 'Andrew', 'William', 'Sandy', 'Sandra', 'Laura', 'Brian', 'Le', 'Chang', 'Thomas', 'Rita', 'Mark']
 
 @app.route('/review', methods=['GET', 'POST'])
 def review():
   print "in review"
+  random.seed(time.time())
   print request.form['comment']
   print int(request.form['coffee'])
   print int(request.form['rating'])
-  name = 'Anonymous'
+  name = names[random.randint(0,len(names)-1)]
   id = int(request.form['coffee'])
   rating = int(request.form['rating'])
   comment = request.form['comment']

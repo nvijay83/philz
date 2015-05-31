@@ -2,6 +2,7 @@ from tinydb import TinyDB, where
 import pdb
 import datetime
 import random
+import time
 
 # Define APIs for callers to insert, query and update
 # Json/python dict
@@ -36,19 +37,19 @@ def starRating( rating ):
 # Inserts the customer feedback/rating into the db.table_name == item
 def insertEntry( dbName, customer_id, rating=None, comment=None ):
    db = TinyDB( dbName )
-   dateTime = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
+   #dateTime = datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")
    entry = \
          {
             'customer_id' : customer_id,
             'rating' : rating,
             'stars' : starRating( rating ),
             'comment' : comment,
-            'date' : dateTime
+            'date' : time.time()
          }
-   if not contains( db, customer_id ):
-      db.insert( entry )
-   else:
-      db.update( entry, where( 'customer_id' ) == customer_id )
+   #if not contains( db, customer_id ):
+   db.insert( entry )
+   #else:
+    #  db.update( entry, where( 'customer_id' ) == customer_id )
 
 # returns Average rating and return a star rating
 def getRatings( dbName ):
@@ -68,12 +69,14 @@ def getStarRatings( dbName ):
 def getReviews( dbName ):
    db = getDb( dbName )
    reviews = []
-   for entry in db.all():
+   entries = db.all()
+   entries.sort(key=lambda k: k['date'],reverse=True)
+   for entry in entries:
       if entry[ 'comment' ]:
          reviews.append({'customer_id':entry[ 'customer_id' ],
                         'comment':entry[ 'comment' ],
                         'stars':entry[ 'stars' ],
-                        'date':entry[ 'date' ]})
+                        'date':datetime.datetime.fromtimestamp(entry['date']).strftime("%I:%M%p on %B %d, %Y")})
    return reviews
 
 def cleanup( dbName ):
