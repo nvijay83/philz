@@ -142,14 +142,12 @@ def review():
   comment = request.form['comment']
   if rating > 0:
     insertEntry('db/'+str(id)+'.json',name,rating,comment)
-  return spec_coffee(id)
+  return spec_coffee(str(id))
 
 @app.route('/<id>')
 def spec_coffee(id):
   print id
-  if type(id) is int:
-    pass
-  else:
+  if 'favicon' in id:
     return ""
   nav_links, name, name_link, description,coffee_id = get_coffees(int(id))
   db = 'db/'+str(id)+'.json'
