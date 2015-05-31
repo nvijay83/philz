@@ -148,7 +148,7 @@ def review():
 def spec_coffee(id):
   print id
   if 'favicon' in id:
-    return
+    return ""
   nav_links, name, name_link, description,coffee_id = get_coffees(int(id))
   db = 'db/'+str(id)+'.json'
   reviews = getReviews(db)
