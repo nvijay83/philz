@@ -147,7 +147,9 @@ def review():
 @app.route('/<id>')
 def spec_coffee(id):
   print id
-  if 'favicon' in id:
+  if type(id) is int:
+    pass
+  else:
     return ""
   nav_links, name, name_link, description,coffee_id = get_coffees(int(id))
   db = 'db/'+str(id)+'.json'
